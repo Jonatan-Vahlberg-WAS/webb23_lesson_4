@@ -5,7 +5,7 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-const users = [
+let users = [
   { name: "Per", id: 1, isTeacher: false },
   { name: "Matilda", id: 2, isTeacher: true },
   { name: "Rut", id: 2, isTeacher: false },
@@ -15,36 +15,92 @@ const users = [
 
 // Create
 app.post("/api/v1/users", (req, res) => {
-  //TODO: create user return 201
-  //TODO: if invalid return 400
+  //Get user from body
+  const newUser = {
+    ...req.body,
+    id: users.length + 1,
+  };
+
+  // Validate fields
+  if (!newUser.name) {
+    return res.status(400).json({
+      message: "Not valid name",
+    });
+  }
+
+  res.status(201).json(newUser);
 });
 
 // Read
 app.get("/api/v1/users", (req, res) => {
-  //TODO: get users
-  //TODO: filter on property
+  const { isTeacher } = req.query;
+
+  let userResponse = [...users];
+
+  if (isTeacher) {
+    console.log(isTeacher, typeof isTeacher);
+    const isTeacherValue = isTeacher === "true";
+    userResponse = userResponse.filter((u) => u.isTeacher === isTeacherValue);
+  }
+
+  res.json(userResponse);
 });
 
 app.get("/api/v1/users/:id", (req, res) => {
-  //TODO: get user on id
-  //TODO: otherwise return 404
+  const { id } = req.params;
+  const user = users.find((u) => u.id == id);
+  if (!user) {
+    return res.status(404).json({
+      message: "User not found",
+    });
+  }
+  res.json(user);
 });
 
 // Update
 app.put("/api/v1/users/:id", (req, res) => {
-  //TODO: update user on id
-  //TODO: if invalid return 400
-  //TODO: otherwise return 404
+  const { id } = req.params;
+  const updatedUser = req.body;
+
+    const userIndex = users.findIndex((u) => u.id == id);
+    const user = users?.[userIndex];
+  if (!user || updatedUser?.id != user?.id) {
+    return res.status(404).json({
+      message: "User not found",
+    });
+  }
+
+  if (!updatedUser.name) {
+    return res.status(400).json({
+      message: "Not valid name",
+    });
+  }
+
+  users[userIndex] = {
+    ...user,
+    ...updatedUser,
+  };
+
+  res.json({
+    ...user,
+    ...updatedUser,
+  });
 });
 
 // Delete
 app.delete("/api/v1/users/:id", (req, res) => {
-  //TODO: delete user on id return 204
-  //TODO: otherwise return 404
+  const { id } = req.params;
+  const user = users.find((u) => u.id == id);
+  if (!user) {
+    return res.status(404).json({
+      message: "User not found",
+    });
+  }
+  users = users.filter((u) => u.id != id);
+  res.status(204).json();
 });
 
-app.listen(3000, () => console.log("Listening on :3000"))
-
+app.listen(3000, () => console.log("Listening on :3000"));
 
 // 200 - OK
 // 201 - Created
