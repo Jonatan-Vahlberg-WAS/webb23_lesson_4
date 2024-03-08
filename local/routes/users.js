@@ -9,8 +9,6 @@ const { validateUser } = require("../utils/validationHelpers");
 
 const router = Router();
 
-let users = [];
-
 const databasePath = "./database/users.json";
 
 router.post("/api/v1/users", async (req, res) => {
