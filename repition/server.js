@@ -1,0 +1,44 @@
+const express = require("express");
+
+const app = express();
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+const users = [
+  { name: "Per", id: 1, isTeacher: false },
+  { name: "Matilda", id: 2, isTeacher: true },
+  { name: "Rut", id: 2, isTeacher: false },
+];
+
+//! CRUD - views
+
+// Create
+app.post("api/v1/users", (req, res) => {
+  //TODO: create user
+  //TODO: if invalid return 400
+});
+
+// Read
+app.get("api/v1/users", (req, res) => {
+  //TODO: get users
+  //TODO: filter on property
+});
+
+app.get("api/v1/users/:id", (req, res) => {
+  //TODO: get user on id
+  //TODO: otherwise return 404
+});
+
+// Update
+app.put("api/v1/users/:id", (req, res) => {
+  //TODO: update user on id
+  //TODO: if invalid return 400
+  //TODO: otherwise return 404
+});
+
+// Delete
+app.delete("api/v1/users/:id", (req, res) => {
+  //TODO: delet user on id return 204
+  //TODO: otherwise return 404
+});
