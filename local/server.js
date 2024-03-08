@@ -1,10 +1,17 @@
 const express = require("express");
+const cors = require("cors");
 const userRouter = require("./routes/users")
 
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+app.use(
+  cors({
+    origin: ["http://localhost:5500", "127.0.0.1:5500"],
+  })
+);
 
 // Use imported router for all user requests
 app.use(userRouter)

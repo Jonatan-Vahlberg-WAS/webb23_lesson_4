@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User database</title>
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      .users {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .user {
+        max-width: 400px;
+        padding: 10px;
+        margin: 10px;
+        border: 1px solid #ccc;
+      }
+      .user h3 {
+        margin: 0;
+      }
+      .user p {
+        margin: 0;
+      }
+      #user-update-form {
+        display: none;
+      }
+
+      #update:checked ~ #user-update-form {
+        display: block;
+      }
+      #update:checked ~ #user-create-form {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <h1>Users</h1>
+      <div class="users"></div>
+      <input type="checkbox" name="update" id="update" />
+      <label for="update"> Update </label>
+      <form method="POST" id="user-update-form">
+        <select name="id" id="user-id" required>
+          <option value="">Select user</option>
+        </select>
+        <input type="text" name="name" placeholder="Name" required />
+        <input type="email" name="email" placeholder="Email" required />
+        <button type="submit">Update user</button>
+      </form>
+      <form method="POST" id="user-create-form">
+        <input type="text" name="name" placeholder="Name" required />
+        <input type="email" name="email" placeholder="Email" required />
+        <button type="submit">Create user</button>
+      </form>
+    </div>
+    <script>
+      const userList = document.querySelector(".users");
+      const baseUrl = "http://localhost:3000";
+
+      const userUpdateForm = document.querySelector("#user-update-form");
+      const userCreateForm = document.querySelector("#user-create-form");
+
+      let users = [];
+
+      const generateUserListItem = (user) => {
+        const userDiv = document.createElement("div");
+        userDiv.classList.add("user");
+        userDiv.innerHTML = `
+          <h3>${user.name}</h3>
+          <button data-id="${user.id}" onclick="deleteUser(event)">Delete</button>
+        `;
+        return userDiv;
+      };
+
+      const renderUsers = () => {
+        users.forEach(user => {
+          userList.appendChild(generateUserListItem(user))
+        })
+      }
+
+      async function getUsers() {
+        const response = await fetch(baseUrl + "/api/v1/users", {
+          method: "GET",
+        });
+        const _users = await response.json()
+        console.log("users fetched", _users)
+        users = _users
+        renderUsers()
+      }
+
+      function createUser(event) {
+        event.preventDefault();
+        //TODO: implement createUser
+        ///1: Create user
+        //2: get updated user list
+        renderUsers()
+      }
+
+      function updateUser(event) {
+        event.preventDefault();
+        //TODO: implement updateUser
+      }
+
+      function deleteUser(e) {
+        const id = e.target.dataset.id;
+        //TODO: implement deleteUser
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        getUsers();
+
+        userUpdateForm.addEventListener("submit", updateUser);
+        userCreateForm.addEventListener("submit", createUser);
+      });
+    </script>
+  </body>
+</html>
