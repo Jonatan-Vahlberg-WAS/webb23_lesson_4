@@ -14,31 +14,31 @@ const users = [
 //! CRUD - views
 
 // Create
-app.post("api/v1/users", (req, res) => {
+app.post("/api/v1/users", (req, res) => {
   //TODO: create user return 201
   //TODO: if invalid return 400
 });
 
 // Read
-app.get("api/v1/users", (req, res) => {
+app.get("/api/v1/users", (req, res) => {
   //TODO: get users
   //TODO: filter on property
 });
 
-app.get("api/v1/users/:id", (req, res) => {
+app.get("/api/v1/users/:id", (req, res) => {
   //TODO: get user on id
   //TODO: otherwise return 404
 });
 
 // Update
-app.put("api/v1/users/:id", (req, res) => {
+app.put("/api/v1/users/:id", (req, res) => {
   //TODO: update user on id
   //TODO: if invalid return 400
   //TODO: otherwise return 404
 });
 
 // Delete
-app.delete("api/v1/users/:id", (req, res) => {
+app.delete("/api/v1/users/:id", (req, res) => {
   //TODO: delete user on id return 204
   //TODO: otherwise return 404
 });
