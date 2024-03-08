@@ -26,7 +26,7 @@ router.post("/api/v1/users", async (req, res) => {
             message: "Not valid name",
         });
     }
-    
+
     try {
         let users = await readDatabaseFile(databasePath)
         users.push(newUser)
@@ -59,7 +59,7 @@ router.get("/api/v1/users", async (req, res) => {
 
 router.get("/api/v1/users/:id", (req, res) => {
   const { id } = req.params;
-  const user = [].find((u) => u.id == id);
+  const user = users.find((u) => u.id == id);
   if (!user) {
     return res.status(404).json({
       message: "User not found",
@@ -73,8 +73,8 @@ router.put("/api/v1/users/:id", (req, res) => {
   const { id } = req.params;
   const updatedUser = req.body;
 
-  const userIndex = [].findIndex((u) => u.id == id);
-  const user = []?.[userIndex];
+  const userIndex = users.findIndex((u) => u.id == id);
+  const user = users?.[userIndex];
   if (!user || updatedUser?.id != user?.id) {
     return res.status(404).json({
       message: "User not found",
@@ -87,7 +87,7 @@ router.put("/api/v1/users/:id", (req, res) => {
     });
   }
 
-  [][userIndex] = {
+  users[userIndex] = {
     ...user,
     ...updatedUser,
   };
@@ -101,13 +101,13 @@ router.put("/api/v1/users/:id", (req, res) => {
 // Delete
 router.delete("/api/v1/users/:id", (req, res) => {
   const { id } = req.params;
-  const user = [].find((u) => u.id == id);
+  const user = users.find((u) => u.id == id);
   if (!user) {
     return res.status(404).json({
       message: "User not found",
     });
   }
-  [] = [].filter((u) => u.id != id);
+  users = users.filter((u) => u.id != id);
   res.status(204).json();
 });
 
