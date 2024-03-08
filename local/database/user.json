@@ -1,0 +1,6 @@
+[
+  { "name": "Per", "id": "abc", "isTeacher": false },
+  { "name": "Matilda", "id": "def", "isTeacher": true },
+  { "name": "Rut", "id": "ghi", "isTeacher": false },
+  { "name": "Olof", "id": "jkl", "isTeacher": false }
+]
