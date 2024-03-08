@@ -1,32 +1,52 @@
 const { Router } = require("express");
+const {
+  writeDatabaseFile,
+  readDatabaseFile,
+} = require("../utils/databaseHelpers");
+
+const uuid = require("uuid")
 
 const router = Router();
 
-let users = []
+let users = [];
 
+const databasePath = "./database/users.json";
 
-router.post("/api/v1/users", (req, res) => {
-  //Get user from body
-  const newUser = {
-    ...req.body,
-    id: users.length + 1,
-  };
+router.post("/api/v1/users", async (req, res) => {
+    //Get user from body
+    
+    const newUser = {
+        ...req.body,
+        id: uuid.v4()
+    };
+    
+    // Validate fields
+    if (!newUser.name) {
+        return res.status(400).json({
+            message: "Not valid name",
+        });
+    }
+    
+    try {
+        let users = await readDatabaseFile(databasePath)
+        users.push(newUser)
+        await writeDatabaseFile(databasePath, users)
+        res.status(201).json(newUser);
+    }
+    catch (error) {
+        console.warn("Error creating user", error)
+        res.status(500).json({
+            message: error
+        })
+    }
 
-  // Validate fields
-  if (!newUser.name) {
-    return res.status(400).json({
-      message: "Not valid name",
-    });
-  }
-
-  res.status(201).json(newUser);
 });
 
 // Read
-router.get("/api/v1/users", (req, res) => {
+router.get("/api/v1/users", async (req, res) => {
   const { isTeacher } = req.query;
-
-  let userResponse = [];
+  const users = await readDatabaseFile(databasePath);
+  let userResponse = [...users];
 
   if (isTeacher) {
     console.log(isTeacher, typeof isTeacher);
@@ -91,4 +111,4 @@ router.delete("/api/v1/users/:id", (req, res) => {
   res.status(204).json();
 });
 
-module.exports = router
+module.exports = router;
