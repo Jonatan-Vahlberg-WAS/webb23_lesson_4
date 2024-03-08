@@ -11,6 +11,7 @@ const router = Router();
 
 const databasePath = "./database/users.json";
 
+// Create
 router.post("/api/v1/users", async (req, res) => {
   //Get user from body
 
