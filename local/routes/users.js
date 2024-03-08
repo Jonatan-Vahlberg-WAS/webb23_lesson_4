@@ -57,15 +57,17 @@ router.get("/api/v1/users", async (req, res) => {
   res.json(userResponse);
 });
 
-router.get("/api/v1/users/:id", (req, res) => {
-  const { id } = req.params;
-  const user = users.find((u) => u.id == id);
-  if (!user) {
-    return res.status(404).json({
-      message: "User not found",
-    });
-  }
-  res.json(user);
+router.get("/api/v1/users/:id", async (req, res) => {
+    const { id } = req.params;
+    const users = await readDatabaseFile(databasePath) 
+    
+    const user = users.find((u) => u.id == id);
+    if (!user) {
+        return res.status(404).json({
+        message: "User not found",
+        });
+    }
+    res.json(user);
 });
 
 // Update
