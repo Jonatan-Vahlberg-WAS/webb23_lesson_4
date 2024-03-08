@@ -39,7 +39,7 @@ app.put("api/v1/users/:id", (req, res) => {
 
 // Delete
 app.delete("api/v1/users/:id", (req, res) => {
-  //TODO: delet user on id return 204
+  //TODO: delete user on id return 204
   //TODO: otherwise return 404
 });
 
