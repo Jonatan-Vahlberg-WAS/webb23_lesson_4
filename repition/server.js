@@ -15,7 +15,7 @@ const users = [
 
 // Create
 app.post("api/v1/users", (req, res) => {
-  //TODO: create user
+  //TODO: create user return 201
   //TODO: if invalid return 400
 });
 
@@ -44,3 +44,13 @@ app.delete("api/v1/users/:id", (req, res) => {
 });
 
 app.listen(3000, () => console.log("Listening on :3000"))
+
+
+// 200 - OK
+// 201 - Created
+// 204 - No Content
+// 400 - Bad Request
+// 401 - Unauthorized
+// 403 - Forbidden
+// 404 - Not Found
+// 500 - Internal Server Error
