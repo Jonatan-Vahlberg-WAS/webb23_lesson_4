@@ -42,3 +42,5 @@ app.delete("api/v1/users/:id", (req, res) => {
   //TODO: delet user on id return 204
   //TODO: otherwise return 404
 });
+
+app.listen(3000, () => console.log("Listening on :3000"))
