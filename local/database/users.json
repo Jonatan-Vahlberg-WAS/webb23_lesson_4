@@ -18,5 +18,17 @@
     "name": "Olof",
     "id": "jkl",
     "isTeacher": false
+  },
+  {
+    "name": "Sam",
+    "email": "adam.nai@wos.se",
+    "isTeacher": false,
+    "id": "866ef3aa-96e3-4cb4-90b2-ff519e63188f"
+  },
+  {
+    "name": "Theo",
+    "email": "theo@email.com",
+    "isTeacher": false,
+    "id": "9f4e48e9-009a-479c-bee7-523fdad3102f"
   }
 ]

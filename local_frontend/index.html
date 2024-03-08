@@ -92,12 +92,33 @@
         renderUsers()
       }
 
-      function createUser(event) {
+      async function createUser(event) {
         event.preventDefault();
-        //TODO: implement createUser
-        ///1: Create user
-        //2: get updated user list
-        renderUsers()
+
+        const formData = new FormData(event.target)
+        const name = formData.get("name")
+        const email = formData.get("email")
+        const newUser = {
+          name,
+          email,
+          isTeacher: false
+        }
+
+        const response = await fetch(baseUrl + "/api/v1/users", {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json"
+          },
+          body: JSON.stringify(newUser)
+        })
+
+        if(response.status !== 201){
+          console.log("User not created")
+          console.log(response)
+          return 
+        }
+
+        getUsers()
       }
 
       function updateUser(event) {
